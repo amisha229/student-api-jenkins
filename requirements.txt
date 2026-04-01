@@ -1,5 +1,6 @@
 flask
 flask-smorest
 marshmallow
-apispec
 gunicorn
+flask-sqlalchemy
+apispec
