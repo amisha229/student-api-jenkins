@@ -45,28 +45,21 @@ class StudentSchema(Schema):
 # ----------------------
 # Blueprint
 # ----------------------
-blp = Blueprint(
-    "students",
-    __name__,
-    description="Student CRUD operations"
-)
+blp = Blueprint("students", __name__, description="Student CRUD operations")
 
 # ----------------------
-# Routes (CRUD)
+# Routes
 # ----------------------
 @blp.route("/students")
 class StudentList(MethodView):
 
     @blp.response(200, StudentSchema(many=True))
     def get(self):
-        """Get all students"""
-        students = StudentModel.query.all()
-        return students
+        return StudentModel.query.all()
 
     @blp.arguments(StudentSchema)
     @blp.response(201, StudentSchema)
     def post(self, student_data):
-        """Create a new student"""
         student = StudentModel(**student_data)
         db.session.add(student)
         db.session.commit()
@@ -78,7 +71,6 @@ class Student(MethodView):
 
     @blp.response(200, StudentSchema)
     def get(self, student_id):
-        """Get one student"""
         student = StudentModel.query.get(student_id)
         if student:
             return student
@@ -87,7 +79,6 @@ class Student(MethodView):
     @blp.arguments(StudentSchema)
     @blp.response(200, StudentSchema)
     def put(self, student_data, student_id):
-        """Update student"""
         student = StudentModel.query.get(student_id)
         if student:
             student.name = student_data["name"]
@@ -97,7 +88,6 @@ class Student(MethodView):
         return {"message": "Student not found"}, 404
 
     def delete(self, student_id):
-        """Delete student"""
         student = StudentModel.query.get(student_id)
         if student:
             db.session.delete(student)
@@ -112,7 +102,7 @@ class Student(MethodView):
 api.register_blueprint(blp)
 
 # ----------------------
-# Create DB Tables
+# Create Tables
 # ----------------------
 with app.app_context():
     db.create_all()
