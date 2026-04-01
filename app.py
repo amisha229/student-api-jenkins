@@ -1,4 +1,4 @@
-```python
+
 from flask import Flask
 from flask_smorest import Api, Blueprint
 from flask.views import MethodView
@@ -112,4 +112,4 @@ with app.app_context():
 # ----------------------
 if __name__ == "__main__":
     app.run()
-```
+
